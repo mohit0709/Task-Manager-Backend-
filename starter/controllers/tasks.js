@@ -1,3 +1,4 @@
+require('../model/Task')
 const getAllTasks = (req,res) => {
     res.send('get all tasks');
 }
