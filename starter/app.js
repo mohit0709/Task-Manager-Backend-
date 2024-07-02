@@ -4,16 +4,13 @@ const app = express();
 const tasks = require('./routes/tasks');
 const connnectDb = require('./db/connect')
 require('dotenv').config()
+const notFound = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handle')
 
 //middleware
-
+app.use(express.static('./public'))
 app.use(express.json())
 
-//route
-app.get('/hello', (req,res) => {
-
-    res.send('Task Mangaer App');
-});
 
 //General Info:
 //app.get('/api/v1/tasks')  --this one gets all the tasks
@@ -24,7 +21,10 @@ app.get('/hello', (req,res) => {
 
 app.use('/api/v1/tasks', tasks);
 
-const port = 3000;
+app.use(notFound)
+app.use(errorHandlerMiddleware)
+
+const port = process.env.PORT || 3000;
 
 const start = async () => {
     try{
